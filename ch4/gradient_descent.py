@@ -22,14 +22,24 @@ def numerical_gradient_no_batch(f, x):
     return grad
 
 def numerical_gradient(f, X):
-    if X.ndim == 1:
-        return numerical_gradient_no_batch(f, X)
-    else:
-        grad = np.zeros_like(X)
+    h = 1e-4  # 0.0001
+    grad = np.zeros_like(X)
 
-        for idx, x in enumerate(X):
-            grad[idx] = numerical_gradient_no_batch(f, x)
-        return grad
+    it = np.nditer(X, flags=['multi_index'], op_flags=['readwrite'])
+    while not it.finished:
+        idx = it.multi_index
+        tmp_val = X[idx]
+        X[idx] = float(tmp_val) + h
+        fxh1 = f(X)  # f(x+h)
+
+        X[idx] = tmp_val - h
+        fxh2 = f(X)  # f(x-h)
+        grad[idx] = (fxh1 - fxh2) / (2 * h)
+
+        X[idx] = tmp_val  # restore value
+        it.iternext()
+
+    return grad
 
 def function_2(x):
     if x.ndim == 1:

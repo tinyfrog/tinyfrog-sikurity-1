@@ -1,3 +1,5 @@
+import numpy as np
+
 def step_function(x):
   # y = x > 0 # if element of x <= 0 then false // else then true
   # return y.astype(np.int) # invert to int
@@ -6,18 +8,24 @@ def step_function(x):
 def sigmoid(x):
   return 1 / (1 + np.exp(-x))
 
+def sigmoid_grad(x):
+  return (1.0 - sigmoid(x)) * sigmoid(x)
+
 def relu(x):
   return np.maximum(0, x)
 
 def identity_function(x):
   return x
 
-def softmax(a):
-  c = np.max(a)
-  exp_a = np.exp(a - c) # apply exponential function with prevent overflow
-  sum_exp_a = np.sum(exp_a) # sum of exponential function
-  y = exp_a / sum_exp_a
-  return y
+def softmax(x):
+  if x.ndim == 2:
+    x = x.T
+    x = x - np.max(x, axis=0)
+    y = np.exp(x) / np.sum(np.exp(x), axis=0)
+    return y.T
+
+  x = x - np.max(x) # apply exponential function with prevent overflow
+  return np.exp(x) / np.sum(np.exp(x))
 
 def init_network(): # 3 hidden layer
   network = {}
@@ -40,3 +48,14 @@ def forward(network, x):
   a3 = np.dot(z2, W3) + b3
   y = identity_function(a3)
   return y
+
+def cross_entropy_error(y, t):
+  if y.ndim == 1:
+    t = t.reshape(1, t.size)
+    y = y.reshape(1, y.size)
+
+    if t.size == y.size:
+      t = t.argmax(axis=1)
+
+    batch_size = y.shape[0]
+    return -np.sum(np.log(y[np.arange(batch_size), t] + 1e-7)) / batch_size
