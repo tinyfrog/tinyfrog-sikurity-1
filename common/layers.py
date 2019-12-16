@@ -1,4 +1,5 @@
 import numpy as np
+from ch3.basic import *
 
 class Relu:
     def __init__(self):
@@ -48,4 +49,20 @@ class Affine:
         self.db = np.sum(dout, axis=0)
         return dx
 
-    
+class SoftmaxWithLoss:
+    def __init__(self):
+        self.loss = None # loss
+        self.y = None # softmax result
+        self.t = None # answer label (one-hot vector)
+
+    def forward(self, x, t):
+        self.t = t
+        self.y = softmax(x)
+        self.loss = cross_entropy_error(self.y, self.t)
+        return self.loss
+
+    def backward(self, dout=1):
+        batch_size = self.t.shape[0]
+        dx = (self.y - self.t) / batch_size
+
+        return dx
