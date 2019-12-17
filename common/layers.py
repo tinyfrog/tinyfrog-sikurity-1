@@ -1,5 +1,5 @@
 import numpy as np
-from ch3.basic import *
+from common.functions import *
 
 class Relu:
     def __init__(self):
@@ -45,7 +45,7 @@ class Affine:
 
     def backward(self, dout):
         dx = np.dot(dout, self.W.T)
-        self.dW = np.out(self.x.T, dout)
+        self.dW = np.dot(self.x.T, dout)
         self.db = np.sum(dout, axis=0)
         return dx
 
