@@ -17,7 +17,7 @@ class Momentum:
     def update(self, params, grads):
         if self.v is None:
             self.v = {}
-            for key, val in params.keys():
+            for key, val in params.items():
                 self.v[key] = np.zeros_like(val)
 
         for key in params.keys():
