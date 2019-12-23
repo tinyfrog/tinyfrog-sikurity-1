@@ -14,6 +14,11 @@ def sigmoid_grad(x):
 def relu(x):
   return np.maximum(0, x)
 
+def relu_grad(x):
+  grad = np.zeros(x)
+  grad[x >= 0] = 1
+  return grad
+
 def identity_function(x):
   return x
 
@@ -27,35 +32,21 @@ def softmax(x):
   x = x - np.max(x) # apply exponential function with prevent overflow
   return np.exp(x) / np.sum(np.exp(x))
 
-def init_network(): # 3 hidden layer
-  network = {}
-  network['W1'] = np.array([[0.1, 0.3, 0.5], [0.2, 0.4, 0.6]])
-  network['b1'] = np.array([0.1, 0.2, 0.3])
-  network['W2'] = np.array([[0.1, 0.4], [0.2, 0.5], [0.3, 0.6]])
-  network['b2'] = np.array([0.1, 0.2])
-  network['W3'] = np.array([[0.1, 0.3], [0.2, 0.4]])
-  network['b3'] = np.array([0.1, 0.2])
-  return network
+def mean_squared_error(y, t):
+  return 0.5 * np.sum((y - t) ** 2)
 
-def forward(network, x):
-  W1, W2, W3 = network['W1'], network['W2'], network['W3']
-  b1, b2, b3 = network['b1'], network['b2'], network['b3']
-
-  a1 = np.dot(x, W1) + b1
-  z1 = sigmoid(a1)
-  a2 = np.dot(z1, W2) + b2
-  z2 = sigmoid(a2)
-  a3 = np.dot(z2, W3) + b3
-  y = identity_function(a3)
-  return y
 
 def cross_entropy_error(y, t):
   if y.ndim == 1:
     t = t.reshape(1, t.size)
     y = y.reshape(1, y.size)
 
-    if t.size == y.size:
+    if t.size == y.size: # if train data is one-hot vector, then invert to answer label index
       t = t.argmax(axis=1)
 
     batch_size = y.shape[0]
     return -np.sum(np.log(y[np.arange(batch_size), t] + 1e-7)) / batch_size
+
+def softmax_loss(X, t):
+  y = softmax(X)
+  return cross_entropy_error(y, t)

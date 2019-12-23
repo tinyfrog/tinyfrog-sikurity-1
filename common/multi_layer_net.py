@@ -7,7 +7,6 @@ from collections import OrderedDict
 from common.layers import *
 from common.gradient import numerical_gradient
 
-
 class MultiLayerNet:
     """완전연결 다층 신경망
     Parameters
