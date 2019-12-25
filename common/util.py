@@ -1,7 +1,6 @@
 # coding: utf-8
 import numpy as np
 
-
 def smooth_curve(x):
     """손실 함수의 그래프를 매끄럽게 하기 위해 사용
 
@@ -34,7 +33,6 @@ def shuffle_dataset(x, t):
 
 def conv_output_size(input_size, filter_size, stride=1, pad=0):
     return (input_size + 2 * pad - filter_size) / stride + 1
-
 
 def im2col(input_data, filter_h, filter_w, stride=1, pad=0):
     """다수의 이미지를 입력받아 2차원 배열로 변환한다(평탄화).

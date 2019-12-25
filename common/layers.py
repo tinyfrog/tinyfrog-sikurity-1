@@ -16,7 +16,9 @@ class Relu:
     def backward(self, dout):
         dout[self.mask] = 0
         dx = dout
+
         return dx
+
 
 class Sigmoid:
     def __init__(self):
@@ -32,6 +34,7 @@ class Sigmoid:
 
         return dx
 
+
 class Affine:
     def __init__(self, W, b):
         self.W = W
@@ -39,12 +42,12 @@ class Affine:
 
         self.x = None
         self.original_x_shape = None
-        # differentiate weight and bias
+        # 가중치와 편향 매개변수의 미분
         self.dW = None
         self.db = None
 
     def forward(self, x):
-        # interact to tensor
+        # 텐서 대응
         self.original_x_shape = x.shape
         x = x.reshape(x.shape[0], -1)
         self.x = x
@@ -58,24 +61,26 @@ class Affine:
         self.dW = np.dot(self.x.T, dout)
         self.db = np.sum(dout, axis=0)
 
-        dx = dx.reshape(*self.original_x_shape)  # reshape input data to interact with tensor
+        dx = dx.reshape(*self.original_x_shape)  # 입력 데이터 모양 변경(텐서 대응)
         return dx
+
 
 class SoftmaxWithLoss:
     def __init__(self):
-        self.loss = None # loss
-        self.y = None # softmax result
-        self.t = None # answer label (one-hot vector)
+        self.loss = None  # 손실함수
+        self.y = None  # softmax의 출력
+        self.t = None  # 정답 레이블(원-핫 인코딩 형태)
 
     def forward(self, x, t):
         self.t = t
         self.y = softmax(x)
         self.loss = cross_entropy_error(self.y, self.t)
+
         return self.loss
 
     def backward(self, dout=1):
         batch_size = self.t.shape[0]
-        if self.t.size == self.y.size:  # if answer label is one-hot encoding form
+        if self.t.size == self.y.size:  # 정답 레이블이 원-핫 인코딩 형태일 때
             dx = (self.y - self.t) / batch_size
         else:
             dx = self.y.copy()

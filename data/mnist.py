@@ -1,12 +1,9 @@
-# coding: utf-8
 try:
     import urllib.request
 except ImportError:
     raise ImportError('You should use Python 3.x')
 import os.path
-import gzip
-import pickle
-import os
+import os, pickle, gzip
 import numpy as np
 
 url_base = 'http://yann.lecun.com/exdb/mnist/'

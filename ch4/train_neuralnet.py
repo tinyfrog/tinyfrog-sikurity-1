@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pylab as plt
-from ch3.mnist import load_mnist
+from data.mnist import load_mnist
 from ch4.two_layer_net import TwoLayerNet
 
 (x_train, t_train), (x_test, t_test) = load_mnist(normalize=True, one_hot_label=True)

@@ -1,8 +1,8 @@
 import sys, os
 sys.path.append(os.pardir)
 import numpy as np
-from ch3.basic import softmax, cross_entropy_error
-from ch4.gradient_descent import numerical_gradient
+from common.functions import softmax, cross_entropy_error
+from common.gradient import numerical_gradient
 
 class simpleNet:
     def __init__(self):

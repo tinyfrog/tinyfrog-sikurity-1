@@ -1,4 +1,3 @@
-# coding: utf-8
 import numpy as np
 
 def _numerical_gradient_1d(f, x):
@@ -14,7 +13,7 @@ def _numerical_gradient_1d(f, x):
         fxh2 = f(x)  # f(x-h)
         grad[idx] = (fxh1 - fxh2) / (2 * h)
 
-        x[idx] = tmp_val  # restore value
+        x[idx] = tmp_val  # 값 복원
 
     return grad
 
@@ -46,7 +45,7 @@ def numerical_gradient(f, x):
         fxh2 = f(x)  # f(x-h)
         grad[idx] = (fxh1 - fxh2) / (2 * h)
 
-        x[idx] = tmp_val  # restore value
+        x[idx] = tmp_val  # 값 복원
         it.iternext()
 
     return grad
