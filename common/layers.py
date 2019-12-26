@@ -202,12 +202,12 @@ class Convolution:
         self.stride = stride
         self.pad = pad
 
-        # 중간 데이터（backward 시 사용）
+        # middle data（Use at backward）
         self.x = None
         self.col = None
         self.col_W = None
 
-        # 가중치와 편향 매개변수의 기울기
+        # slope of weight and bias parameter
         self.dW = None
         self.db = None
 
@@ -218,7 +218,7 @@ class Convolution:
         out_w = 1 + int((W + 2 * self.pad - FW) / self.stride)
 
         col = im2col(x, FH, FW, self.stride, self.pad)
-        col_W = self.W.reshape(FN, -1).T
+        col_W = self.W.reshape(FN, -1).T # filter expansion
 
         out = np.dot(col, col_W) + self.b
         out = out.reshape(N, out_h, out_w, -1).transpose(0, 3, 1, 2)
@@ -258,10 +258,14 @@ class Pooling:
         out_h = int(1 + (H - self.pool_h) / self.stride)
         out_w = int(1 + (W - self.pool_w) / self.stride)
 
+        # expansion (1)
         col = im2col(x, self.pool_h, self.pool_w, self.stride, self.pad)
         col = col.reshape(-1, self.pool_h * self.pool_w)
 
+        # max value(2)
         arg_max = np.argmax(col, axis=1)
+
+        # reshape (3)
         out = np.max(col, axis=1)
         out = out.reshape(N, out_h, out_w, C).transpose(0, 3, 1, 2)
 

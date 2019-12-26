@@ -47,7 +47,7 @@ def cross_entropy_error(y, t):
         t = t.reshape(1, t.size)
         y = y.reshape(1, y.size)
 
-    # If train vector is one-hot vector then return answer label's index 
+    # If train vector is one-hot vector then return answer label's index
     if t.size == y.size:
         t = t.argmax(axis=1)
 
