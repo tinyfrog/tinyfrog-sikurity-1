@@ -18,7 +18,7 @@ class MulLayer:
 
 class AddLayer:
     def __init__(self):
-        pass
+        pass # do not anything
 
     def forward(self, x, y):
         out = x + y
