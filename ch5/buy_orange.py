@@ -12,13 +12,13 @@ mul_orange_layer = MulLayer()
 add_apple_orange_layer = AddLayer()
 mul_tax_layer = MulLayer()
 
-# forwarding
+# forward
 apple_price = mul_apple_layer.forward(apple, apple_num) # (1)
 orange_price = mul_orange_layer.forward(orange, orange_num) # (2)
 all_price = add_apple_orange_layer.forward(apple_price, orange_price) # (3)
 price = mul_tax_layer.forward(all_price, tax) # (4)
 
-# backwarding
+# backward
 dprice = 1 # dL / dz
 dall_price, dtax = mul_tax_layer.backward(dprice) # (4)
 dapple_price, dorange_price = add_apple_orange_layer.backward(dall_price) # (3)
