@@ -8,7 +8,7 @@ from common.optimizer import SGD, Adam
 
 (x_train, t_train), (x_test, t_test) = load_mnist(normalize=True)
 
-# Reduce Train data
+# Reduce Train data size
 x_train = x_train[:1000]
 t_train = t_train[:1000]
 
@@ -54,7 +54,7 @@ def __train(weight_init_std):
     return train_acc_list, bn_train_acc_list
 
 
-# draw graph
+# draw graph with matplotlib
 weight_scale_list = np.logspace(0, -4, num=16)
 x = np.arange(max_epochs)
 
