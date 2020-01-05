@@ -34,7 +34,7 @@ class TwoLayerNet:
             Affine(W2, b2)
         ]
 
-        # Gather all weights into list
+        # Gather weights into list
         self.params = []
         for layer in self.layers:
             self.params += layer.params
