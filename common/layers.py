@@ -121,11 +121,11 @@ class BatchNormalization:
         self.momentum = momentum
         self.input_shape = None  # 합성곱 계층은 4차원, 완전연결 계층은 2차원
 
-        # 시험할 때 사용할 평균과 분산
+        # Average and variance to use while testing
         self.running_mean = running_mean
         self.running_var = running_var
 
-        # backward 시에 사용할 중간 데이터
+        # Intermediate data to use while backward
         self.batch_size = None
         self.xc = None
         self.std = None
@@ -139,7 +139,6 @@ class BatchNormalization:
             x = x.reshape(N, -1)
 
         out = self.__forward(x, train_flg)
-
         return out.reshape(*self.input_shape)
 
     def __forward(self, x, train_flg):
