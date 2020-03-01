@@ -28,8 +28,6 @@ class Momentum:
 class Nesterov:
     """Nesterov's Accelerated Gradient (http://arxiv.org/abs/1212.0901)"""
 
-    # NAG는 모멘텀에서 한 단계 발전한 방법이다. (http://newsight.tistory.com/224)
-
     def __init__(self, lr=0.01, momentum=0.9):
         self.lr = lr
         self.momentum = momentum

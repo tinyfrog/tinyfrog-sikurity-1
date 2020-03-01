@@ -89,6 +89,22 @@ class SoftmaxWithLoss:
 
         return dx
 
+class l2loss:
+    '''
+    With Seanie Lee
+    '''
+    def __init__(self, num_features, lr=0.001):
+        self.weight = np.random.randn(num_features)
+        self.lr = lr
+
+    def forward(self, x):
+        self.logits = np.dot(x, self.weight)
+        return self.logits
+
+    def backward(self, x, y):
+        grad = np.matmul(2 * x.T, (self.logits - y))
+        self.weight = self.weight - self.lr * grad
+        return grad
 
 class Dropout:
     """
@@ -109,7 +125,6 @@ class Dropout:
     def backward(self, dout):
         return dout * self.mask
 
-
 class BatchNormalization:
     """
     http://arxiv.org/abs/1502.03167
@@ -119,7 +134,7 @@ class BatchNormalization:
         self.gamma = gamma
         self.beta = beta
         self.momentum = momentum
-        self.input_shape = None  # 합성곱 계층은 4차원, 완전연결 계층은 2차원
+        self.input_shape = None
 
         # Average and variance to use while testing
         self.running_mean = running_mean
@@ -192,7 +207,6 @@ class BatchNormalization:
         self.dbeta = dbeta
 
         return dx
-
 
 class Convolution:
     def __init__(self, W, b, stride=1, pad=0):
